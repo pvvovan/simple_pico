@@ -2,3 +2,7 @@
 	path = pico-sdk
 	url = https://github.com/raspberrypi/pico-sdk.git
 	branch = master
+[submodule "openocd"]
+	path = openocd
+	url = https://github.com/raspberrypi/openocd.git
+	branch = rp2040
