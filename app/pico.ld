@@ -38,4 +38,6 @@ SECTIONS
         __binary_info_header_end = .;
         KEEP (*(.reset))
     }
+
+    __StackTop = ORIGIN(SCRATCH_Y) + LENGTH(SCRATCH_Y);
 }

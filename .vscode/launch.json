@@ -19,7 +19,28 @@
 			"searchDir": [
 				"./openocd/tcl/"
 			],
-			"runToEntryPoint": "reset",
+			"runToEntryPoint": "_reset_handler",
+			"showDevDebugOutput": "none",
+			"gdbPath" : "arm-none-eabi-gdb",
+			"device": "RP2040",
+			"svdFile": "./pico-sdk/src/rp2040/hardware_regs/rp2040.svd"
+		},
+		{
+			"cwd": "${workspaceRoot}",
+			"executable": "./app/build/app.elf",
+			"name": "SimpleApp",
+			"request": "launch",
+			"type": "cortex-debug",
+			"servertype": "openocd",
+			"serverpath": "./openocd/src/openocd",
+			"configFiles": [
+				"interface/picoprobe.cfg",
+				"target/rp2040.cfg"
+			],
+			"searchDir": [
+				"./openocd/tcl/"
+			],
+			"runToEntryPoint": "_reset_handler",
 			"showDevDebugOutput": "none",
 			"gdbPath" : "arm-none-eabi-gdb",
 			"device": "RP2040",
