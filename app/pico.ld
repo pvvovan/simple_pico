@@ -6,7 +6,7 @@ MEMORY
     SCRATCH_Y(rwx) : ORIGIN = 0x20041000, LENGTH = 4k
 }
 
-ENTRY(_entry_point)
+ENTRY(_reset_handler)
 
 SECTIONS
 {
@@ -32,11 +32,10 @@ SECTIONS
     */
 
     .text : {
-        __logical_binary_start = .;
         KEEP (*(.vectors))
-        KEEP (*(.binary_info_header))
-        __binary_info_header_end = .;
-        KEEP (*(.reset))
+        . += ALIGN(4);
+        *(.text)
+        *(.text*)
     } > FLASH
 
     .rodata : {
