@@ -67,3 +67,8 @@ static inline void *rom_func_lookup_inline(uint32_t code) {
 void *rom_func_lookup(uint32_t code) {
     return rom_func_lookup_inline(code);
 }
+
+void isr_hardfault(void)
+{
+	for ( ; ; ) { }
+}

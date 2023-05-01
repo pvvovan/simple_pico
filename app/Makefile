@@ -24,7 +24,7 @@ startup_pico.S \
 crt0.S
 
 C_SOURCES = \
-startup.c \
+picosystem.c \
 main.c
 
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.S=.o)))
