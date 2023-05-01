@@ -37,7 +37,30 @@ SECTIONS
         KEEP (*(.binary_info_header))
         __binary_info_header_end = .;
         KEEP (*(.reset))
-    }
+    } > FLASH
+
+    .rodata : {
+        . = ALIGN(4);
+        *(.rodata)
+        *(.rodata*)
+    } > FLASH
+
+    .data : {
+        . = ALIGN(4);
+        SYM_databegin = .;
+        *(.data)
+        *(.data*)
+        SYM_dataend = .;
+    } > RAM AT > FLASH
+    SYM_loaddatabegin = LOADADDR(.data);
+
+    .bss : {
+        . = ALIGN(4);
+        SYM_bssbegin = .;
+        *(.bss)
+        *(.bss*)
+        SYM_bssend = .;
+    } > RAM
 
     __StackTop = ORIGIN(SCRATCH_Y) + LENGTH(SCRATCH_Y);
 }

@@ -23,8 +23,15 @@ ASM_SOURCES = \
 startup_pico.S \
 crt0.S
 
+C_SOURCES = \
+startup.c \
+main.c
+
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.S=.o)))
 vpath %.S $(sort $(dir $(ASM_SOURCES)))
+
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
+vpath %.c $(sort $(dir $(C_SOURCES)))
 
 $(shell test -d $(BUILD_DIR) || mkdir $(BUILD_DIR))
 
@@ -32,6 +39,9 @@ all: $(BUILD_DIR)/$(TARGET).elf
 
 $(BUILD_DIR)/%.o: %.S FORCE
 	$(AS) -c $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/%.o: %.c FORCE
+	$(CC) -c $(CFLAGS) $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@

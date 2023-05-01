@@ -1,8 +1,3 @@
-#define SIO_BASE _u(0xd0000000)
-#define PPB_BASE _u(0xe0000000)
-#define M0PLUS_VTOR_OFFSET _u(0x0000ed08)
-#define SIO_CPUID_OFFSET _u(0x00000000)
-
 .section .reset, "ax"
 
 // On flash builds, the vector table comes first in the image (conventional).
@@ -56,15 +51,16 @@ _reset_handler:
     b myloop
 
 myloop:
-	bkpt #0
-	nop
-	nop
-	nop
-	nop
-	b myloop
-	bkpt #1
-	bkpt #2
-	bkpt #3
+    bl startup
+    bkpt #0
+    nop
+    nop
+    nop
+    nop
+    b myloop
+    bkpt #1
+    bkpt #2
+    bkpt #3
 
 
 .section .vectors, "ax"
