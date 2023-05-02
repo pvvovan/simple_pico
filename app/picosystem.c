@@ -17,7 +17,7 @@ static void initram(void)
 	}
 }
 
-void startup(void)
+void runtime_init(void)
 {
 	initram();
 	main();

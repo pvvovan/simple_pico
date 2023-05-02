@@ -33,10 +33,13 @@ bss_fill_test:
     cmp r1, r2
     bne bss_fill_loop
 
-    b myloop
+platform_entry: // symbol for stack traces
+    // Use 32-bit jumps, in case these symbols are moved out of branch range
+    // (e.g. if main is in SRAM and crt0 in flash)
+    ldr r1, =runtime_init
+    blx r1
 
 myloop:
-    bl startup
     bkpt #0
     nop
     nop
