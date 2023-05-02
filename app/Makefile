@@ -25,13 +25,17 @@ crt0.S
 
 C_SOURCES = \
 picosystem.c \
-main.c
+main.c \
+led.c
+
+INC_DIR = \
+-iquote ./
 
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.S=.o)))
 vpath %.S $(sort $(dir $(ASM_SOURCES)))
 
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
-vpath %.c $(sort $(dir $(C_SOURCES)))
+vpath %.c $(sort $(dir $(C_SOURCES))) $(INC_DIR)
 
 $(shell test -d $(BUILD_DIR) || mkdir $(BUILD_DIR))
 
