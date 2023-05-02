@@ -48,13 +48,13 @@ SECTIONS
 
     .data : {
         . = ALIGN(4);
-        SYM_databegin = .;
+        __SYM_databegin__ = .;
         *(.data)
         *(.data*)
         . += ALIGN(4);
-        SYM_dataend = .;
+        __SYM_dataend__ = .;
     } > RAM AT > FLASH
-    SYM_loaddatabegin = LOADADDR(.data);
+    __SYM_loaddatabegin__ = LOADADDR(.data);
 
     .bss : {
         . = ALIGN(4);

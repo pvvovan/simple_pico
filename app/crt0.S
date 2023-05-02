@@ -33,6 +33,18 @@ bss_fill_test:
     cmp r1, r2
     bne bss_fill_loop
 
+    // Copy the DATA section
+    ldr r1, =__SYM_databegin__
+    ldr r2, =__SYM_dataend__
+    ldr r3, =__SYM_loaddatabegin__
+    b data_copy_test
+data_copy_loop:
+    ldm r3!, {r0}
+    stm r1!, {r0}
+data_copy_test:
+    cmp r1, r2
+    bne data_copy_loop
+
 platform_entry: // symbol for stack traces
     // Use 32-bit jumps, in case these symbols are moved out of branch range
     // (e.g. if main is in SRAM and crt0 in flash)

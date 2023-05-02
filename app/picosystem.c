@@ -2,24 +2,8 @@
 
 int main(void);
 
-extern const void *SYM_loaddatabegin;
-extern void *SYM_databegin;
-extern void *SYM_dataend;
-
-static void initram(void)
-{
-	volatile long *dest = (volatile long *)&SYM_databegin;
-	const long *src = (const long *)&SYM_loaddatabegin;
-	while (dest < (volatile long *)&SYM_dataend) {
-		*dest = *src;
-		src++;
-		dest++;
-	}
-}
-
 void runtime_init(void)
 {
-	initram();
 	main();
 	while (1) { }
 }

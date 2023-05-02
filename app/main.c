@@ -1,5 +1,5 @@
 volatile long g_val = 123;
-volatile long g_valu[10];
+volatile long g_valu[2];
 volatile const long c_val = 321;
 
 int main()
