@@ -5,8 +5,6 @@ int main(void);
 extern const void *SYM_loaddatabegin;
 extern void *SYM_databegin;
 extern void *SYM_dataend;
-extern void *SYM_bssbegin;
-extern void *SYM_bssend;
 
 static void initram(void)
 {
@@ -15,12 +13,6 @@ static void initram(void)
 	while (dest < (volatile long *)&SYM_dataend) {
 		*dest = *src;
 		src++;
-		dest++;
-	}
-
-	dest = (volatile long *)&SYM_bssbegin;
-	while (dest < (volatile long *)&SYM_bssend) {
-		*dest = 0;
 		dest++;
 	}
 }

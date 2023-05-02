@@ -21,6 +21,18 @@ _reset_handler:
     ldr r0, [r0]
     cmp r0, #0
     bne hold_non_core0_in_bootrom
+
+    // Zero out the BSS
+    ldr r1, =__SYM_bssbegin__
+    ldr r2, =__SYM_bssend__
+    movs r0, #0
+    b bss_fill_test
+bss_fill_loop:
+    stm r1!, {r0}
+bss_fill_test:
+    cmp r1, r2
+    bne bss_fill_loop
+
     b myloop
 
 myloop:

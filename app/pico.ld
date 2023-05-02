@@ -36,12 +36,14 @@ SECTIONS
         . += ALIGN(4);
         *(.text)
         *(.text*)
+        . += ALIGN(4);
     } > FLASH
 
     .rodata : {
         . = ALIGN(4);
         *(.rodata)
         *(.rodata*)
+        . += ALIGN(4);
     } > FLASH
 
     .data : {
@@ -49,16 +51,18 @@ SECTIONS
         SYM_databegin = .;
         *(.data)
         *(.data*)
+        . += ALIGN(4);
         SYM_dataend = .;
     } > RAM AT > FLASH
     SYM_loaddatabegin = LOADADDR(.data);
 
     .bss : {
         . = ALIGN(4);
-        SYM_bssbegin = .;
+        __SYM_bssbegin__ = .;
         *(.bss)
         *(.bss*)
-        SYM_bssend = .;
+        . += ALIGN(4);
+        __SYM_bssend__ = .;
     } > RAM
 
     __StackTop = ORIGIN(SCRATCH_Y) + LENGTH(SCRATCH_Y);
