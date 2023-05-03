@@ -59,10 +59,10 @@ static void hw_clear_bits(volatile uint32_t *addr, uint32_t mask) {
 
 void led_init(void)
 {
+	// Remove reset from peripherals which are clocked
 	hw_clear_bits((volatile uint32_t *)RESETS_BASE, RESETS_RESET_BITS);
 	for (volatile long long i = 0; i < 1000; i++) { }
 
-	CLK_PERI_CTRL |= 1uL << 11; // bit:11 ENABLE Starts and stops the clock generator cleanly
 	GPIO_OE_CLR = 1uL << LED_PIN;
 	GPIO_OUT_CLR = 1uL << LED_PIN;
 	GPIO25_CTRL = GPIO_FUNC_SIO;
