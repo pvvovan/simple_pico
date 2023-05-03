@@ -59,6 +59,8 @@ SECTIONS
     .bss : {
         . = ALIGN(4);
         __SYM_bssbegin__ = .;
+        *(.stack1)
+        . = ALIGN(4);
         *(.bss)
         *(.bss*)
         . += ALIGN(4);

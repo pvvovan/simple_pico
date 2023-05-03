@@ -26,7 +26,8 @@ crt0.S
 C_SOURCES = \
 picosystem.c \
 main.c \
-led.c
+led.c \
+core1.c
 
 INC_DIR = \
 -iquote ./
