@@ -31,7 +31,8 @@
 *.out
 *.app
 
-demo/build
+demo/build/
 app/build/
+demo_rtos/build/
 .vscode/.cortex-debug.peripherals.state.json
 .vscode/.cortex-debug.registers.state.json
