@@ -1,9 +1,7 @@
 MEMORY
 {
-    FLASH(rx) : ORIGIN = 0x10000000, LENGTH = 2048k
-    RAM(rwx) : ORIGIN =  0x20000000, LENGTH = 256k
-    SCRATCH_X(rwx) : ORIGIN = 0x20040000, LENGTH = 4k
-    SCRATCH_Y(rwx) : ORIGIN = 0x20041000, LENGTH = 4k
+    FLASH (rx)  : ORIGIN = 0x10000000, LENGTH = 2048k
+    RAM  (rwx)  : ORIGIN = 0x20000000, LENGTH = 264k
 }
 
 ENTRY(_reset_handler)
@@ -33,17 +31,17 @@ SECTIONS
 
     .text : {
         KEEP (*(.vectors))
-        . += ALIGN(4);
+        . = ALIGN(4);
         *(.text)
         *(.text*)
-        . += ALIGN(4);
+        . = ALIGN(4);
     } > FLASH
 
     .rodata : {
         . = ALIGN(4);
         *(.rodata)
         *(.rodata*)
-        . += ALIGN(4);
+        . = ALIGN(4);
     } > FLASH
 
     .data : {
@@ -51,7 +49,7 @@ SECTIONS
         __SYM_databegin__ = .;
         *(.data)
         *(.data*)
-        . += ALIGN(4);
+        . = ALIGN(4);
         __SYM_dataend__ = .;
     } > RAM AT > FLASH
     __SYM_loaddatabegin__ = LOADADDR(.data);
@@ -59,13 +57,17 @@ SECTIONS
     .bss : {
         . = ALIGN(4);
         __SYM_bssbegin__ = .;
-        *(.stack1)
-        . = ALIGN(4);
         *(.bss)
         *(.bss*)
-        . += ALIGN(4);
+        . = ALIGN(4);
         __SYM_bssend__ = .;
     } > RAM
 
-    __StackTop = ORIGIN(SCRATCH_Y) + LENGTH(SCRATCH_Y);
+    .stack1 : {
+        . = ALIGN(4);
+        *(.stack1)
+        . = ALIGN(4);
+    } > RAM
+
+    __SYM_StackTop__ = ORIGIN(RAM) + LENGTH(RAM);
 }

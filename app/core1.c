@@ -246,7 +246,7 @@ static inline void multicore_fifo_push_blocking_inline(uint32_t data) {
     asm volatile ("sev");
 }
 
-void multicore_fifo_push_blocking(uint32_t data) {
+static void multicore_fifo_push_blocking(uint32_t data) {
     multicore_fifo_push_blocking_inline(data);
 }
 
@@ -260,13 +260,13 @@ static inline uint32_t multicore_fifo_pop_blocking_inline(void) {
     return sio_hw->fifo_rd;
 }
 
-uint32_t multicore_fifo_pop_blocking() {
+static uint32_t multicore_fifo_pop_blocking() {
     return multicore_fifo_pop_blocking_inline();
 }
 
 #define count_of(a) (sizeof(a)/sizeof((a)[0]))
 
-void multicore_launch_core1_raw(void (*entry)(void), uint32_t *sp, uint32_t vector_table) {
+static void multicore_launch_core1_raw(void (*entry)(void), uint32_t *sp, uint32_t vector_table) {
     // Allow for the fact that the caller may have already enabled the FIFO IRQ for their
     // own purposes (expecting FIFO content after core 1 is launched). We must disable
     // the IRQ during the handshake, then restore afterwards.
@@ -353,7 +353,7 @@ static void __attribute__ ((naked)) core1_trampoline(void) {
     __asm("pop {r0, r1, pc}");
 }
 
-int core1_wrapper(int (*entry)(void), void *stack_base) {
+static int core1_wrapper(int (*entry)(void), void *stack_base) {
 	(void)stack_base;
 // #if PICO_USE_STACK_GUARDS
 //     // install core1 stack guard
@@ -365,7 +365,7 @@ int core1_wrapper(int (*entry)(void), void *stack_base) {
 	return (*entry)();
 }
 
-void multicore_launch_core1_with_stack(void (*entry)(void), uint32_t *stack_bottom, size_t stack_size_bytes) {
+static void multicore_launch_core1_with_stack(void (*entry)(void), uint32_t *stack_bottom, size_t stack_size_bytes) {
 //     assert(!(stack_size_bytes & 3u));
     uint32_t *stack_ptr = stack_bottom + stack_size_bytes / sizeof(uint32_t);
     // push 2 values onto top of stack for core1_trampoline
@@ -380,7 +380,7 @@ void multicore_launch_core1_with_stack(void (*entry)(void), uint32_t *stack_bott
     multicore_launch_core1_raw(core1_trampoline, stack_ptr, scb_hw->vtor);
 }
 
-#define PICO_CORE1_STACK_SIZE 0x800
+#define PICO_CORE1_STACK_SIZE 8192
 // Default stack for core1
 static uint32_t __attribute__((section(".stack1"))) core1_stack[PICO_CORE1_STACK_SIZE / sizeof(uint32_t)];
 

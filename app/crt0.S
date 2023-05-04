@@ -48,7 +48,7 @@ data_copy_test:
 platform_entry: // symbol for stack traces
     // Use 32-bit jumps, in case these symbols are moved out of branch range
     // (e.g. if main is in SRAM and crt0 in flash)
-    ldr r1, =runtime_init
+    ldr r1, =main
     blx r1
 
 myloop:
@@ -69,7 +69,7 @@ myloop:
 .global __vectors, __VECTOR_TABLE
 __VECTOR_TABLE:
 __vectors:
-.word __StackTop
+.word __SYM_StackTop__
 .word _reset_handler
 .word isr_nmi
 .word isr_hardfault

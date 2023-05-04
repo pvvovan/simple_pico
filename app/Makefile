@@ -12,7 +12,8 @@ FLOAT-ABI = -mfloat-abi=soft
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 OPT = -O0 -g3 -gdwarf-5
 
-CFLAGS = $(MCU) $(OPT) -Wall -Wextra -fdata-sections -ffunction-sections
+CFLAGS = $(MCU) $(OPT) -fdata-sections -ffunction-sections \
+-Wall -Wextra -Wpedantic -Wsign-conversion -Wconversion -std=gnu11
 
 LDSCRIPT = pico.ld
 LIBS = -nostartfiles
