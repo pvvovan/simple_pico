@@ -389,6 +389,6 @@ void multicore_launch_core1(void (*entry)(void)) {
 	// uint32_t *stack_limit = (uint32_t *) &__StackOneBottom;
 	// hack to reference core1_stack although that pointer is wrong.... core1_stack should always be <= stack_limit, if not boom!
 	// uint32_t *stack = core1_stack <= stack_limit ? stack_limit : (uint32_t *) -1;
-	uint32_t *stack = &core1_stack[PICO_CORE1_STACK_SIZE / sizeof(uint32_t)];
+	uint32_t *stack = &core1_stack[0];
 	multicore_launch_core1_with_stack(entry, stack, sizeof(core1_stack));
 }

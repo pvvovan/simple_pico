@@ -3,22 +3,19 @@ TARGET = app
 PREFIX = arm-none-eabi-
 CC = $(GCC_PATH)$(PREFIX)gcc
 AS = $(GCC_PATH)$(PREFIX)gcc -x assembler-with-cpp
-CP = $(GCC_PATH)$(PREFIX)objcopy
 SZ = $(GCC_PATH)$(PREFIX)size
 
 CPU = -mcpu=cortex-m0plus
 FPU =
 FLOAT-ABI = -mfloat-abi=soft
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
-OPT = -O0 -g3 -gdwarf-5
+OPT = -O2 -g3 -gdwarf-5
 
 CFLAGS = $(MCU) $(OPT) -fdata-sections -ffunction-sections \
 -Wall -Wextra -Wpedantic -Wsign-conversion -Wconversion -std=gnu11
 
-LDSCRIPT = pico.ld
-LIBS = -nostartfiles
-LIBDIR = 
-LDFLAGS = $(MCU) -specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+LDFLAGS = $(MCU) -specs=nosys.specs -nostartfiles -T pico.ld \
+-Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 ASM_SOURCES = \
 startup_pico.S \
@@ -49,7 +46,7 @@ $(BUILD_DIR)/%.o: %.S FORCE
 $(BUILD_DIR)/%.o: %.c FORCE
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
+$(BUILD_DIR)/$(TARGET).elf: $(OBJECTS)
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(SZ) $@
 	$(GCC_PATH)$(PREFIX)objdump $(BUILD_DIR)/$(TARGET).elf -D > $(BUILD_DIR)/myD.s
