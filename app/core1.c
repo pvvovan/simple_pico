@@ -243,7 +243,7 @@ static inline void multicore_fifo_push_blocking_inline(uint32_t data) {
 
     // Fire off an event to the other core
 //     __sev();
-    asm volatile ("sev");
+    asm volatile ("sev" : : : "memory");
 }
 
 static void multicore_fifo_push_blocking(uint32_t data) {
@@ -255,7 +255,7 @@ static inline uint32_t multicore_fifo_pop_blocking_inline(void) {
     // to try and avoid too much busy waiting
     while (!multicore_fifo_rvalid())
         // __wfe();
-	asm volatile ("wfe");
+	asm volatile ("wfe" : : : "memory");
 
     return sio_hw->fifo_rd;
 }
@@ -289,7 +289,7 @@ static void multicore_launch_core1_raw(void (*entry)(void), uint32_t *sp, uint32
             multicore_fifo_drain();
             // Execute a SEV as core 1 may be waiting for FIFO space via WFE
         //     __sev();
-	    asm volatile ("sev");
+	    asm volatile ("sev" : : : "memory");
         }
         multicore_fifo_push_blocking(cmd);
         uint32_t response = multicore_fifo_pop_blocking();

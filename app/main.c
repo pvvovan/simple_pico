@@ -48,7 +48,7 @@ int main()
 
 	// // SEV causes an event to be signaled to all cores within a multiprocessor system.
 	// // If SEV is implemented, WFE must also be implemented.
-	// asm volatile ("sev");
+	// asm volatile ("sev" : : : "memory");
 	multicore_launch_core1(&core1_func);
 	incrfunc();
 	for ( ; ; ) {
